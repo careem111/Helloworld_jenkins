@@ -1,21 +1,27 @@
-pipeline{
+ipeline{
     agent any
     stages{
-        stage('Checkout'){
-           steps{
-              git 'https://github.com/yankils/hello-world.git'
-           }
+        stage('checkout'){
+                steps{
+                    git 'https://github.com/careem111/helloworld1_private.git'
+                }
         }
-        stage('Build'){
+        stage('build'){
             steps{
                 sh 'mvn clean install package'
             }
         }
-        stage('Archive'){
+        stage('copy war file'){
             steps{
-               archiveArtifacts artifacts: 'webapp/target/*.war', followSymlinks: false
+                sh 'sudo -i;cp webapps/target/*.war /root/images'
             }
         }
-   }
+        stage('create docker image'){
+            steps{
+                sh 'docker build'
+            }
+        }
 
+
+        }
 }
